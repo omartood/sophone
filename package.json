@@ -1,0 +1,48 @@
+{
+  "name": "sophone",
+  "version": "0.1.0",
+  "description": "Somalia (+252) phone validator, formatter, and operator guesser. Library + CLI.",
+  "keywords": [
+    "somalia",
+    "phone",
+    "validator",
+    "e164",
+    "cli",
+    "telecom",
+    "mobile"
+  ],
+  "license": "MIT",
+  "author": "Your Name",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "bin": {
+    "sophone": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "echo 'No linter configured yet'",
+    "build": "echo 'No build step required'",
+    "prepublishOnly": "npm test"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/sophone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/sophone/issues"
+  },
+  "homepage": "https://github.com/yourusername/sophone#readme",
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}
