@@ -1,7 +1,7 @@
 {
   "name": "sophone",
   "version": "0.1.0",
-  "description": "Somalia (+252) phone validator, formatter, and operator guesser. Library + CLI.",
+  "description": "🇸🇴 Professional Somali phone number validation, formatting & operator detection. Comprehensive library with CLI tools, TypeScript support, and beautiful error handling.",
   "keywords": [
     "somalia",
     "phone",
@@ -12,7 +12,7 @@
     "mobile"
   ],
   "license": "MIT",
-  "author": "Your Name",
+  "author": "Omar Tood",
   "type": "commonjs",
   "main": "src/index.js",
   "bin": {
@@ -36,12 +36,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/sophone.git"
+    "url": "git+https://github.com/omartood/sophone.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/sophone/issues"
+    "url": "https://github.com/omartood/sophone/issues"
   },
-  "homepage": "https://github.com/yourusername/sophone#readme",
+  "homepage": "https://github.com/omartood/sophone#readme",
   "devDependencies": {
     "vitest": "^3.2.4"
   }
