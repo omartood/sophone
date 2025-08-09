@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2025-08-09
+
+### Fixed
+- Updated repository links to correct GitHub URL (github.com/omartood/sophone)
+- Fixed documentation to show ES module syntax instead of CommonJS
+- Enhanced README with comprehensive CLI examples and proper links
+- Added contributing guidelines and development setup instructions
+
+### Changed
+- Improved package description with emoji and better formatting
+- Enhanced CLI help documentation with all 8 commands
+
 ## [0.1.0] - 2025-08-09
 
 ### Added

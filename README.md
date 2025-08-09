@@ -18,7 +18,7 @@ import {
   getOperator,
   validate,
   SomaliPhoneError,
-  ERROR_CODES
+  ERROR_CODES,
 } from "sophone";
 
 // Basic validation (never throws)
@@ -29,11 +29,11 @@ isValidSomaliMobile("invalid"); // false
 // Comprehensive validation with detailed results
 const result = validate("0611234567");
 if (result.ok) {
-  console.log(result.value.e164);    // "+252611234567"
-  console.log(result.value.local);   // "0611 234 567"
+  console.log(result.value.e164); // "+252611234567"
+  console.log(result.value.local); // "0611 234 567"
   console.log(result.value.operator); // "Hormuud"
 } else {
-  console.log(result.error.code);    // "INVALID_PREFIX"
+  console.log(result.error.code); // "INVALID_PREFIX"
   console.log(result.error.message); // Descriptive error message
 }
 ```
@@ -45,25 +45,25 @@ The library provides both throwing and safe (non-throwing) versions of functions
 ```javascript
 // Throwing functions (throw SomaliPhoneError on invalid input)
 try {
-  normalizeE164("0611234567");  // "+252611234567"
-  formatLocal("0611234567");    // "0611 234 567"
-  getOperator("0611234567");    // "Hormuud"
+  normalizeE164("0611234567"); // "+252611234567"
+  formatLocal("0611234567"); // "0611 234 567"
+  getOperator("0611234567"); // "Hormuud"
 } catch (error) {
   if (error instanceof SomaliPhoneError) {
-    console.log(error.code);    // ERROR_CODES.INVALID_PREFIX
+    console.log(error.code); // ERROR_CODES.INVALID_PREFIX
     console.log(error.message); // Descriptive message
   }
 }
 
 // Safe functions (return null on invalid input, never throw)
-normalizeE164Safe("0611234567");  // "+252611234567"
-normalizeE164Safe("invalid");     // null
+normalizeE164Safe("0611234567"); // "+252611234567"
+normalizeE164Safe("invalid"); // null
 
-formatLocalSafe("0611234567");    // "0611 234 567"
-formatLocalSafe("invalid");       // null
+formatLocalSafe("0611234567"); // "0611 234 567"
+formatLocalSafe("invalid"); // null
 
-getOperatorSafe("0611234567");    // "Hormuud"
-getOperatorSafe("invalid");       // null
+getOperatorSafe("0611234567"); // "Hormuud"
+getOperatorSafe("invalid"); // null
 ```
 
 ### Error Handling
@@ -75,16 +75,16 @@ try {
   normalizeE164("invalid");
 } catch (error) {
   console.log(error instanceof SomaliPhoneError); // true
-  console.log(error.code);    // "INVALID_INPUT"
+  console.log(error.code); // "INVALID_INPUT"
   console.log(error.message); // "invalid" contains no valid digits
   console.log(error.details); // Additional context
 }
 
 // Available error codes
-console.log(ERROR_CODES.INVALID_INPUT);  // "INVALID_INPUT"
+console.log(ERROR_CODES.INVALID_INPUT); // "INVALID_INPUT"
 console.log(ERROR_CODES.INVALID_LENGTH); // "INVALID_LENGTH"
 console.log(ERROR_CODES.INVALID_PREFIX); // "INVALID_PREFIX"
-console.log(ERROR_CODES.UNKNOWN);        // "UNKNOWN"
+console.log(ERROR_CODES.UNKNOWN); // "UNKNOWN"
 ```
 
 ## CLI Usage
@@ -133,42 +133,55 @@ sophone help
 ### Core Functions
 
 #### `isValidSomaliMobile(input: string): boolean`
+
 Validates if the input is a valid Somali mobile number. Never throws errors.
 
 #### `validate(input: string): ValidationResult`
+
 Comprehensive validation that returns `{ ok: true, value: {...} }` for valid numbers or `{ ok: false, error: {...} }` for invalid ones.
 
 ### Throwing Functions
+
 These functions throw `SomaliPhoneError` for invalid input:
 
 #### `normalizeE164(input: string): string`
+
 Normalizes a Somali mobile number to E.164 format (+252XXXXXXXXX).
 
 #### `formatLocal(input: string): string`
+
 Formats a Somali mobile number to local format (0XXX XXX XXX).
 
 #### `getOperator(input: string): string | null`
+
 Gets the mobile operator for a Somali mobile number.
 
 ### Safe Functions (Non-throwing)
+
 These functions return `null` instead of throwing errors:
 
 #### `normalizeE164Safe(input: string): string | null`
+
 Safe version of `normalizeE164`.
 
 #### `formatLocalSafe(input: string): string | null`
+
 Safe version of `formatLocal`.
 
 #### `getOperatorSafe(input: string): string | null`
+
 Safe version of `getOperator`.
 
 ### Error Handling
 
 #### `SomaliPhoneError`
+
 Custom error class with `code`, `message`, and `details` properties.
 
 #### `ERROR_CODES`
+
 Constants for error codes:
+
 - `INVALID_INPUT`: Invalid or missing input
 - `INVALID_LENGTH`: Wrong number of digits
 - `INVALID_PREFIX`: Unrecognized mobile prefix
