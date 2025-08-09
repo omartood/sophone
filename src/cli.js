@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { 
+import { 
   isValidSomaliMobile, 
   normalizeE164, 
   formatLocal, 
@@ -10,8 +10,8 @@ const {
   validateBatch,
   SomaliPhoneError,
   _getValidationError 
-} = require("./index");
-const fs = require('fs');
+} from "./index.js";
+import fs from 'fs';
 
 const [, , cmd, arg] = process.argv;
 

@@ -299,7 +299,7 @@ function normalizeBatch(numbers) {
   }));
 }
 
-module.exports = {
+export {
   // Constants
   ERROR_CODES,
   SomaliPhoneError,
