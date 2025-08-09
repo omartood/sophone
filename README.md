@@ -11,7 +11,7 @@ npm install sophone
 ## Library Usage
 
 ```javascript
-const {
+import {
   isValidSomaliMobile,
   normalizeE164,
   formatLocal,
@@ -19,7 +19,7 @@ const {
   validate,
   SomaliPhoneError,
   ERROR_CODES
-} = require("sophone");
+} from "sophone";
 
 // Basic validation (never throws)
 isValidSomaliMobile("+252 61 123 4567"); // true
@@ -91,7 +91,7 @@ console.log(ERROR_CODES.UNKNOWN);        // "UNKNOWN"
 
 ```bash
 # Validate a number
-sophone validate "+252 61 123 4567"  # valid
+sophone validate "+252 61 123 4567"  # ✓ valid
 
 # Format to local
 sophone format "0611234567"  # 0611 234 567
@@ -99,8 +99,20 @@ sophone format "0611234567"  # 0611 234 567
 # Convert to E.164
 sophone e164 "0611234567"  # +252611234567
 
+# Format to international
+sophone international "0611234567"  # +252 61 123 4567
+
 # Get operator
 sophone operator "+252771234567"  # Hormuud
+
+# Get detailed operator info
+sophone info "0611234567"  # Shows operator details
+
+# List all operators
+sophone operators  # Shows all available operators
+
+# Process batch file
+sophone batch numbers.txt  # Process multiple numbers
 
 # Help
 sophone help
@@ -162,6 +174,47 @@ Constants for error codes:
 - `INVALID_PREFIX`: Unrecognized mobile prefix
 - `UNKNOWN`: General unknown error
 
+## Links
+
+- **GitHub Repository**: https://github.com/omartood/sophone
+- **npm Package**: https://www.npmjs.com/package/sophone
+- **Issues**: https://github.com/omartood/sophone/issues
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Development
+
+```bash
+# Clone the repository
+git clone https://github.com/omartood/sophone.git
+cd sophone
+
+# Install dependencies
+npm install
+
+# Run tests
+npm test
+
+# Test CLI locally
+node src/cli.js validate "0611234567"
+```
+
+## Changelog
+
+See [CHANGELOG.md](https://github.com/omartood/sophone/blob/main/CHANGELOG.md) for details.
+
 ## License
 
-MIT
+MIT - see [LICENSE](https://github.com/omartood/sophone/blob/main/LICENSE) file for details.
+
+---
+
+Made with ❤️ for the Somali developer community 🇸🇴
