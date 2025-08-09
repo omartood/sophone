@@ -22,11 +22,13 @@ A comprehensive JavaScript/TypeScript library for working with Somali phone numb
 ## 📦 Installation
 
 ### For Library Use
+
 ```bash
 npm install sophone
 ```
 
 ### For CLI Use (Global)
+
 ```bash
 npm install -g sophone
 ```
@@ -36,23 +38,28 @@ npm install -g sophone
 ### Basic Usage
 
 ```javascript
-import { isValidSomaliMobile, normalizeE164, formatLocal, getOperator } from "sophone";
+import {
+  isValidSomaliMobile,
+  normalizeE164,
+  formatLocal,
+  getOperator,
+} from "sophone";
 
 // Validate any Somali phone number format
-isValidSomaliMobile("+252 61 123 4567");  // ✅ true
-isValidSomaliMobile("0611234567");        // ✅ true  
-isValidSomaliMobile("611234567");         // ✅ true
-isValidSomaliMobile("252611234567");      // ✅ true
-isValidSomaliMobile("invalid");           // ❌ false
+isValidSomaliMobile("+252 61 123 4567"); // ✅ true
+isValidSomaliMobile("0611234567"); // ✅ true
+isValidSomaliMobile("611234567"); // ✅ true
+isValidSomaliMobile("252611234567"); // ✅ true
+isValidSomaliMobile("invalid"); // ❌ false
 
 // Convert to international E.164 format
-normalizeE164("0611234567");              // "+252611234567"
+normalizeE164("0611234567"); // "+252611234567"
 
 // Format for local display
-formatLocal("+252611234567");             // "0611 234 567"
+formatLocal("+252611234567"); // "0611 234 567"
 
 // Identify the mobile operator
-getOperator("0611234567");                // "Hormuud"
+getOperator("0611234567"); // "Hormuud"
 ```
 
 ## 📚 Comprehensive Usage Guide
@@ -64,16 +71,16 @@ import { isValidSomaliMobile, validate } from "sophone";
 
 // Simple validation (boolean result)
 const phoneNumbers = [
-  "+252 61 123 4567",  // Hormuud
-  "0621234567",        // Somtel  
-  "631234567",         // Telesom
-  "invalid-number",    // Invalid
-  "123"                // Too short
+  "+252 61 123 4567", // Hormuud
+  "0621234567", // Somtel
+  "631234567", // Telesom
+  "invalid-number", // Invalid
+  "123", // Too short
 ];
 
-phoneNumbers.forEach(number => {
+phoneNumbers.forEach((number) => {
   const isValid = isValidSomaliMobile(number);
-  console.log(`${number}: ${isValid ? '✅ Valid' : '❌ Invalid'}`);
+  console.log(`${number}: ${isValid ? "✅ Valid" : "❌ Invalid"}`);
 });
 
 // Detailed validation with error information
@@ -94,28 +101,28 @@ if (result.ok) {
 ### 2. Number Formatting
 
 ```javascript
-import { 
-  normalizeE164, 
-  formatLocal, 
+import {
+  normalizeE164,
+  formatLocal,
   formatInternational,
   // Safe versions that return null instead of throwing
   normalizeE164Safe,
   formatLocalSafe,
-  formatInternationalSafe
+  formatInternationalSafe,
 } from "sophone";
 
 const phoneNumber = "0611234567";
 
 // Different formatting options
 console.log("📱 Original:", phoneNumber);
-console.log("🌍 E.164:", normalizeE164(phoneNumber));           // "+252611234567"
-console.log("🏠 Local:", formatLocal(phoneNumber));             // "0611 234 567"  
+console.log("🌍 E.164:", normalizeE164(phoneNumber)); // "+252611234567"
+console.log("🏠 Local:", formatLocal(phoneNumber)); // "0611 234 567"
 console.log("📞 International:", formatInternational(phoneNumber)); // "+252 61 123 4567"
 
 // Safe formatting (won't throw errors)
 const invalidNumber = "invalid";
-console.log("Safe E.164:", normalizeE164Safe(invalidNumber));   // null
-console.log("Safe Local:", formatLocalSafe(invalidNumber));     // null
+console.log("Safe E.164:", normalizeE164Safe(invalidNumber)); // null
+console.log("Safe Local:", formatLocalSafe(invalidNumber)); // null
 ```
 
 ### 3. Operator Detection
@@ -124,21 +131,21 @@ console.log("Safe Local:", formatLocalSafe(invalidNumber));     // null
 import { getOperator, getOperatorInfo, getAllOperators } from "sophone";
 
 // Get operator name
-console.log(getOperator("0611234567"));  // "Hormuud"
-console.log(getOperator("0621234567"));  // "Somtel"
-console.log(getOperator("0631234567"));  // "Telesom"
+console.log(getOperator("0611234567")); // "Hormuud"
+console.log(getOperator("0621234567")); // "Somtel"
+console.log(getOperator("0631234567")); // "Telesom"
 
 // Get detailed operator information
 const operatorInfo = getOperatorInfo("0611234567");
-console.log("📡 Operator:", operatorInfo.name);        // "Hormuud Telecom Somalia"
-console.log("📋 Prefixes:", operatorInfo.prefixes);    // ["61", "77"]
-console.log("🌐 Website:", operatorInfo.website);      // "https://hormuud.com"
-console.log("📱 Type:", operatorInfo.type);            // "GSM"
+console.log("📡 Operator:", operatorInfo.name); // "Hormuud Telecom Somalia"
+console.log("📋 Prefixes:", operatorInfo.prefixes); // ["61", "77"]
+console.log("🌐 Website:", operatorInfo.website); // "https://hormuud.com"
+console.log("📱 Type:", operatorInfo.type); // "GSM"
 
 // List all available operators
 const allOperators = getAllOperators();
-allOperators.forEach(op => {
-  console.log(`📡 ${op.name} (${op.prefixes.join(', ')})`);
+allOperators.forEach((op) => {
+  console.log(`📡 ${op.name} (${op.prefixes.join(", ")})`);
 });
 ```
 
@@ -168,7 +175,7 @@ function processPhoneNumber(input) {
         default:
           console.log(`❌ Unknown error: ${error.message}`);
       }
-      
+
       // Access additional error details
       console.log("🔍 Error details:", error.details);
     }
@@ -177,10 +184,10 @@ function processPhoneNumber(input) {
 }
 
 // Test with different inputs
-processPhoneNumber("0611234567");  // ✅ Valid
-processPhoneNumber("123");         // ❌ Too short
-processPhoneNumber("0111234567");  // ❌ Invalid prefix
-processPhoneNumber("invalid");     // ❌ Invalid input
+processPhoneNumber("0611234567"); // ✅ Valid
+processPhoneNumber("123"); // ❌ Too short
+processPhoneNumber("0111234567"); // ❌ Invalid prefix
+processPhoneNumber("invalid"); // ❌ Invalid input
 ```
 
 ### 5. Batch Processing
@@ -189,18 +196,20 @@ processPhoneNumber("invalid");     // ❌ Invalid input
 import { validateBatch, normalizeBatch } from "sophone";
 
 const phoneNumbers = [
-  "0611234567",    // Valid Hormuud
-  "0621234567",    // Valid Somtel
-  "invalid",       // Invalid
-  "123",          // Too short
-  "0771234567"    // Valid Hormuud
+  "0611234567", // Valid Hormuud
+  "0621234567", // Valid Somtel
+  "invalid", // Invalid
+  "123", // Too short
+  "0771234567", // Valid Hormuud
 ];
 
 // Validate multiple numbers at once
 const validationResults = validateBatch(phoneNumbers);
-validationResults.forEach(result => {
+validationResults.forEach((result) => {
   if (result.ok) {
-    console.log(`✅ ${result.input} → ${result.value.e164} (${result.value.operator})`);
+    console.log(
+      `✅ ${result.input} → ${result.value.e164} (${result.value.operator})`
+    );
   } else {
     console.log(`❌ ${result.input} → ${result.error.message}`);
   }
@@ -208,8 +217,8 @@ validationResults.forEach(result => {
 
 // Normalize multiple numbers (safe operation)
 const normalizedResults = normalizeBatch(phoneNumbers);
-normalizedResults.forEach(result => {
-  console.log(`${result.input} → ${result.result || 'Invalid'}`);
+normalizedResults.forEach((result) => {
+  console.log(`${result.input} → ${result.result || "Invalid"}`);
 });
 ```
 
@@ -223,9 +232,12 @@ import { isValidSomaliMobile, validate, formatLocal } from "sophone";
 function validateUserPhone(phoneInput) {
   // Quick validation
   if (!isValidSomaliMobile(phoneInput)) {
-    return { valid: false, message: "Please enter a valid Somali phone number" };
+    return {
+      valid: false,
+      message: "Please enter a valid Somali phone number",
+    };
   }
-  
+
   // Get detailed information
   const result = validate(phoneInput);
   if (result.ok) {
@@ -233,10 +245,10 @@ function validateUserPhone(phoneInput) {
       valid: true,
       formatted: result.value.local,
       operator: result.value.operator,
-      e164: result.value.e164
+      e164: result.value.e164,
     };
   }
-  
+
   return { valid: false, message: result.error.message };
 }
 
@@ -262,32 +274,34 @@ const contacts = [
   { name: "Ahmed", phone: "+252611234567" },
   { name: "Fatima", phone: "0621234567" },
   { name: "Omar", phone: "631234567" },
-  { name: "Amina", phone: "invalid-phone" }
+  { name: "Amina", phone: "invalid-phone" },
 ];
 
-const formattedContacts = contacts.map(contact => {
+const formattedContacts = contacts.map((contact) => {
   if (isValidSomaliMobile(contact.phone)) {
     return {
       ...contact,
       formattedPhone: formatLocal(contact.phone),
       operator: getOperator(contact.phone),
-      valid: true
+      valid: true,
     };
   } else {
     return {
       ...contact,
       formattedPhone: contact.phone,
       operator: null,
-      valid: false
+      valid: false,
     };
   }
 });
 
 console.log("📞 Contact List:");
-formattedContacts.forEach(contact => {
-  const status = contact.valid ? '✅' : '❌';
-  const operator = contact.operator ? `(${contact.operator})` : '';
-  console.log(`${status} ${contact.name}: ${contact.formattedPhone} ${operator}`);
+formattedContacts.forEach((contact) => {
+  const status = contact.valid ? "✅" : "❌";
+  const operator = contact.operator ? `(${contact.operator})` : "";
+  console.log(
+    `${status} ${contact.name}: ${contact.formattedPhone} ${operator}`
+  );
 });
 ```
 
@@ -345,6 +359,7 @@ console.log(ERROR_CODES.UNKNOWN); // "UNKNOWN"
 The CLI tool provides a convenient way to work with Somali phone numbers from the command line.
 
 ### Installation
+
 ```bash
 npm install -g sophone
 ```
@@ -356,7 +371,7 @@ npm install -g sophone
 sophone validate "+252 61 123 4567"
 # Output: ✓ valid
 
-sophone validate "invalid-number"  
+sophone validate "invalid-number"
 # Output: ✗ invalid
 #         "invalid-number" contains no valid digits
 
@@ -527,4 +542,4 @@ MIT - see [LICENSE](https://github.com/omartood/sophone/blob/main/LICENSE) file 
 
 ---
 
-Made with ❤️ for the Somali developer community 🇸🇴
+Created by Omar Tood🇸🇴
