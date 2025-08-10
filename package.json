@@ -1,6 +1,6 @@
 {
   "name": "sophone",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "🇸🇴 Professional Somali phone number validation, formatting & operator detection. Comprehensive library with CLI tools, TypeScript support, and beautiful error handling.",
   "keywords": [
     "somalia",
