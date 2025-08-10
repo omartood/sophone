@@ -13,7 +13,9 @@ describe("sophone", () => {
 
   describe("SomaliPhoneError", () => {
     it("creates error with code and details", () => {
-      const error = new P.SomaliPhoneError("Test message", "TEST_CODE", { test: true });
+      const error = new P.SomaliPhoneError("Test message", "TEST_CODE", {
+        test: true,
+      });
       expect(error.message).toBe("Test message");
       expect(error.code).toBe("TEST_CODE");
       expect(error.details).toEqual({ test: true });
@@ -40,8 +42,20 @@ describe("sophone", () => {
     });
 
     it("validates all known prefixes", () => {
-      const prefixes = ["61", "62", "63", "64", "65", "66", "68", "69", "71", "77"];
-      prefixes.forEach(prefix => {
+      const prefixes = [
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "68",
+        "69",
+        "71",
+        "77",
+        "90",
+      ];
+      prefixes.forEach((prefix) => {
         expect(P.isValidSomaliMobile(`${prefix}1234567`)).toBe(true);
       });
     });
@@ -92,7 +106,7 @@ describe("sophone", () => {
     it("throws SomaliPhoneError for invalid numbers", () => {
       expect(() => P.normalizeE164("invalid")).toThrow(P.SomaliPhoneError);
       expect(() => P.normalizeE164("061123456")).toThrow(P.SomaliPhoneError);
-      
+
       try {
         P.normalizeE164("invalid");
       } catch (error) {
@@ -122,7 +136,7 @@ describe("sophone", () => {
 
     it("throws SomaliPhoneError for invalid numbers", () => {
       expect(() => P.formatLocal("invalid")).toThrow(P.SomaliPhoneError);
-      
+
       try {
         P.formatLocal("123");
       } catch (error) {
@@ -150,6 +164,7 @@ describe("sophone", () => {
       expect(P.getOperator("+252621234567")).toBe("Somtel");
       expect(P.getOperator("+252631234567")).toBe("Telesom");
       expect(P.getOperator("+252711234567")).toBe("Amtel");
+      expect(P.getOperator("+252901234567")).toBe("Golis");
     });
 
     it("returns null for valid numbers with unknown operators", () => {
@@ -159,7 +174,7 @@ describe("sophone", () => {
 
     it("throws SomaliPhoneError for invalid numbers", () => {
       expect(() => P.getOperator("invalid")).toThrow(P.SomaliPhoneError);
-      
+
       try {
         P.getOperator("0111234567");
       } catch (error) {
@@ -188,7 +203,9 @@ describe("sophone", () => {
     });
 
     it("throws SomaliPhoneError for invalid numbers", () => {
-      expect(() => P.formatInternational("invalid")).toThrow(P.SomaliPhoneError);
+      expect(() => P.formatInternational("invalid")).toThrow(
+        P.SomaliPhoneError
+      );
     });
   });
 
@@ -209,7 +226,7 @@ describe("sophone", () => {
         name: "Hormuud Telecom Somalia",
         prefixes: ["61", "77"],
         website: "https://hormuud.com",
-        type: "GSM"
+        type: "GSM",
       });
     });
 
@@ -233,7 +250,7 @@ describe("sophone", () => {
   describe("getAllOperators", () => {
     it("returns all operators with information", () => {
       const operators = P.getAllOperators();
-      expect(operators).toHaveLength(7);
+      expect(operators).toHaveLength(8);
       expect(operators[0]).toHaveProperty("name");
       expect(operators[0]).toHaveProperty("prefixes");
       expect(operators[0]).toHaveProperty("type");

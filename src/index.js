@@ -1,16 +1,16 @@
 // Error codes constants
 const ERROR_CODES = {
-  INVALID_LENGTH: 'INVALID_LENGTH',
-  INVALID_PREFIX: 'INVALID_PREFIX',
-  UNKNOWN: 'UNKNOWN',
-  INVALID_INPUT: 'INVALID_INPUT'
+  INVALID_LENGTH: "INVALID_LENGTH",
+  INVALID_PREFIX: "INVALID_PREFIX",
+  UNKNOWN: "UNKNOWN",
+  INVALID_INPUT: "INVALID_INPUT",
 };
 
 // Custom error class
 class SomaliPhoneError extends Error {
   constructor(message, code, details = null) {
     super(message);
-    this.name = 'SomaliPhoneError';
+    this.name = "SomaliPhoneError";
     this.code = code;
     this.details = details;
   }
@@ -27,6 +27,7 @@ const MOBILE_PREFIXES = new Set([
   "69",
   "71",
   "77",
+  "90",
 ]);
 const OPERATOR_BY_PREFIX = {
   61: "Hormuud",
@@ -39,56 +40,63 @@ const OPERATOR_BY_PREFIX = {
   68: "SomNet",
   69: "NationLink",
   71: "Amtel",
+  90: "Golis",
 };
 
 // Additional metadata
 const OPERATOR_INFO = {
-  "Hormuud": {
+  Hormuud: {
     name: "Hormuud Telecom Somalia",
     prefixes: ["61", "77"],
     website: "https://hormuud.com",
-    type: "GSM"
+    type: "GSM",
   },
-  "Somtel": {
+  Somtel: {
     name: "Somtel Network",
     prefixes: ["62", "65", "66"],
     website: "https://somtel.com",
-    type: "GSM"
+    type: "GSM",
   },
-  "Telesom": {
+  Telesom: {
     name: "Telesom",
     prefixes: ["63"],
     website: "https://telesom.net",
-    type: "GSM"
+    type: "GSM",
   },
-  "SomLink": {
+  SomLink: {
     name: "SomLink",
     prefixes: ["64"],
     website: null,
-    type: "GSM"
+    type: "GSM",
   },
-  "SomNet": {
+  SomNet: {
     name: "SomNet",
     prefixes: ["68"],
     website: null,
-    type: "GSM"
+    type: "GSM",
   },
-  "NationLink": {
+  NationLink: {
     name: "NationLink Telecom",
     prefixes: ["69"],
     website: null,
-    type: "GSM"
+    type: "GSM",
   },
-  "Amtel": {
+  Amtel: {
     name: "Amtel",
     prefixes: ["71"],
     website: null,
-    type: "GSM"
-  }
+    type: "GSM",
+  },
+  Golis: {
+    name: "Golis Telecom",
+    prefixes: ["90"],
+    website: "https://golistelecom.com",
+    type: "GSM",
+  },
 };
 
 function _digits(s) {
-  if (typeof s !== 'string') return "";
+  if (typeof s !== "string") return "";
   return s.replace(/[^\d+]/g, "");
 }
 
@@ -102,57 +110,59 @@ function toNSN(input) {
 }
 
 function isValidSomaliMobile(input) {
-  if (!input || typeof input !== 'string') return false;
+  if (!input || typeof input !== "string") return false;
   const nsn = toNSN(input);
   if (!/^\d{9}$/.test(nsn)) return false;
   return MOBILE_PREFIXES.has(nsn.slice(0, 2));
 }
 
 function _getValidationError(input) {
-  if (!input || typeof input !== 'string') {
+  if (!input || typeof input !== "string") {
     return {
       code: ERROR_CODES.INVALID_INPUT,
       message: "Phone number is required and must be a string",
-      details: { input, type: typeof input }
+      details: { input, type: typeof input },
     };
   }
-  
+
   const nsn = toNSN(input);
-  
+
   if (!nsn || nsn.length === 0) {
     return {
       code: ERROR_CODES.INVALID_INPUT,
       message: `"${input}" contains no valid digits`,
-      details: { input, nsn }
+      details: { input, nsn },
     };
   }
-  
+
   if (nsn.length < 9) {
     return {
       code: ERROR_CODES.INVALID_LENGTH,
       message: `"${input}" is too short (${nsn.length} digits). Somali mobile numbers need 9 digits`,
-      details: { input, nsn, actualLength: nsn.length, expectedLength: 9 }
+      details: { input, nsn, actualLength: nsn.length, expectedLength: 9 },
     };
   }
-  
+
   if (nsn.length > 9) {
     return {
       code: ERROR_CODES.INVALID_LENGTH,
       message: `"${input}" is too long (${nsn.length} digits). Somali mobile numbers need exactly 9 digits`,
-      details: { input, nsn, actualLength: nsn.length, expectedLength: 9 }
+      details: { input, nsn, actualLength: nsn.length, expectedLength: 9 },
     };
   }
-  
+
   const prefix = nsn.slice(0, 2);
   if (!MOBILE_PREFIXES.has(prefix)) {
     const validPrefixes = Array.from(MOBILE_PREFIXES).sort();
     return {
       code: ERROR_CODES.INVALID_PREFIX,
-      message: `"${input}" has invalid prefix "${prefix}". Valid prefixes are: ${validPrefixes.join(', ')}`,
-      details: { input, nsn, prefix, validPrefixes }
+      message: `"${input}" has invalid prefix "${prefix}". Valid prefixes are: ${validPrefixes.join(
+        ", "
+      )}`,
+      details: { input, nsn, prefix, validPrefixes },
     };
   }
-  
+
   return null;
 }
 
@@ -217,14 +227,14 @@ function validate(input) {
       error: {
         code: error.code,
         message: error.message,
-        details: error.details
-      }
+        details: error.details,
+      },
     };
   }
-  
+
   const nsn = toNSN(input);
   const operator = OPERATOR_BY_PREFIX[nsn.slice(0, 2)] || null;
-  
+
   return {
     ok: true,
     value: {
@@ -233,8 +243,8 @@ function validate(input) {
       e164: `+252${nsn}`,
       local: `0${nsn.slice(0, 3)} ${nsn.slice(3, 6)} ${nsn.slice(6, 9)}`,
       operator,
-      operatorInfo: operator ? OPERATOR_INFO[operator] : null
-    }
+      operatorInfo: operator ? OPERATOR_INFO[operator] : null,
+    },
   };
 }
 
@@ -257,9 +267,9 @@ function getOperatorInfoSafe(input) {
 }
 
 function getAllOperators() {
-  return Object.keys(OPERATOR_INFO).map(name => ({
+  return Object.keys(OPERATOR_INFO).map((name) => ({
     name,
-    ...OPERATOR_INFO[name]
+    ...OPERATOR_INFO[name],
   }));
 }
 
@@ -286,16 +296,16 @@ function formatInternationalSafe(input) {
 
 // Batch processing functions
 function validateBatch(numbers) {
-  return numbers.map(number => ({
+  return numbers.map((number) => ({
     input: number,
-    ...validate(number)
+    ...validate(number),
   }));
 }
 
 function normalizeBatch(numbers) {
-  return numbers.map(number => ({
+  return numbers.map((number) => ({
     input: number,
-    result: normalizeE164Safe(number)
+    result: normalizeE164Safe(number),
   }));
 }
 
@@ -304,34 +314,34 @@ export {
   ERROR_CODES,
   SomaliPhoneError,
   OPERATOR_INFO,
-  
+
   // Core functions
   toNSN,
   isValidSomaliMobile,
   validate,
-  
+
   // Throwing functions
   normalizeE164,
   formatLocal,
   getOperator,
   formatInternational,
   getOperatorInfo,
-  
+
   // Safe functions (non-throwing)
   normalizeE164Safe,
   formatLocalSafe,
   getOperatorSafe,
   formatInternationalSafe,
   getOperatorInfoSafe,
-  
+
   // Utility functions
   getAllOperators,
   getOperatorByPrefix,
-  
+
   // Batch processing
   validateBatch,
   normalizeBatch,
-  
+
   // Internal (for CLI)
   _getValidationError,
 };
