@@ -74,7 +74,7 @@ const phoneNumbers = [
   "+252 61 123 4567", // Hormuud
   "0621234567", // Somtel
   "631234567", // Telesom
-  "0906938520", // Golis
+  "0901234567", // Golis
   "invalid-number", // Invalid
   "123", // Too short
 ];
@@ -135,7 +135,7 @@ import { getOperator, getOperatorInfo, getAllOperators } from "sophone";
 console.log(getOperator("0611234567")); // "Hormuud"
 console.log(getOperator("0621234567")); // "Somtel"
 console.log(getOperator("0631234567")); // "Telesom"
-console.log(getOperator("0906938520")); // "Golis"
+console.log(getOperator("0901234567")); // "Golis"
 
 // Get detailed operator information
 const operatorInfo = getOperatorInfo("0611234567");
