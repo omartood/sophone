@@ -636,6 +636,10 @@ Constants for error codes:
 - **npm Package**: https://www.npmjs.com/package/sophone
 - **Issues**: https://github.com/omartood/sophone/issues
 
+## Code of Conduct
+
+This project adheres to the [Contributor Covenant Code of Conduct](https://github.com/omartood/sophone/blob/main/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to omarjibrilabdulkhadir@gmail.com.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
