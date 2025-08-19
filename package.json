@@ -1,7 +1,7 @@
 {
   "name": "sophone",
-  "version": "0.1.1",
-  "description": "🇸🇴 Professional Somali phone number validation, formatting & operator detection. Comprehensive library with CLI tools, TypeScript support, and beautiful error handling.",
+  "version": "0.2.0",
+  "description": "🇸🇴 Professional Somali phone number validation, formatting, operator detection & mobile wallet identification. Supports EVC, Sahal, ZAAD, eDahab, and Jeeb with CLI tools, TypeScript support, and beautiful error handling.",
   "keywords": [
     "somalia",
     "phone",
@@ -9,7 +9,15 @@
     "e164",
     "cli",
     "telecom",
-    "mobile"
+    "mobile",
+    "wallet",
+    "evc",
+    "sahal",
+    "zaad",
+    "edahab",
+    "jeeb",
+    "mobile-money",
+    "fintech"
   ],
   "license": "MIT",
   "author": "Omar Tood",

@@ -1,8 +1,8 @@
 # 🇸🇴 sophone
 
-**Professional Somali phone number validation, formatting & operator detection**
+**Professional Somali phone number validation, formatting, operator detection & mobile wallet identification**
 
-A comprehensive JavaScript/TypeScript library for working with Somali phone numbers. Validate, format, and identify operators for Somalia (+252) phone numbers with beautiful error handling and TypeScript support.
+A comprehensive JavaScript/TypeScript library for working with Somali phone numbers. Validate, format, identify operators, and detect mobile money wallets (EVC, Sahal, ZAAD, eDahab, Jeeb) for Somalia (+252) phone numbers with beautiful error handling and TypeScript support.
 
 [![npm version](https://badge.fury.io/js/sophone.svg)](https://www.npmjs.com/package/sophone)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,11 +13,12 @@ A comprehensive JavaScript/TypeScript library for working with Somali phone numb
 - 🔍 **Validate** Somali phone numbers in any format
 - 🎨 **Format** numbers to E.164, local, or international format
 - 📱 **Identify operators** (Hormuud, Somtel, Telesom, etc.)
+- 💰 **Detect mobile wallets** (EVC, Sahal, ZAAD, eDahab, Jeeb)
 - 🛡️ **TypeScript support** with complete type definitions
 - 🚀 **CLI tool** for command-line usage
 - 📦 **Batch processing** for multiple numbers
 - 🎯 **Beautiful error handling** with detailed messages
-- ⚡ **Zero dependencies** and lightweight (6.5 kB)
+- ⚡ **Zero dependencies** and lightweight
 
 ## 📦 Installation
 
@@ -43,6 +44,8 @@ import {
   normalizeE164,
   formatLocal,
   getOperator,
+  getWallet,
+  getWalletInfo,
 } from "sophone";
 
 // Validate any Somali phone number format
@@ -60,6 +63,16 @@ formatLocal("+252611234567"); // "0611 234 567"
 
 // Identify the mobile operator
 getOperator("0611234567"); // "Hormuud"
+
+// Identify the mobile wallet
+getWallet("0611234567"); // "EVC"
+getWallet("0621234567"); // "Sahal"
+getWallet("0631234567"); // "ZAAD"
+
+// Get detailed wallet information
+const walletInfo = getWalletInfo("0611234567");
+console.log(walletInfo.name); // "EVC Plus"
+console.log(walletInfo.ussd); // "*770#"
 ```
 
 ## 📚 Comprehensive Usage Guide
@@ -85,13 +98,14 @@ phoneNumbers.forEach((number) => {
 
 // Detailed validation with error information
 const result = validate("0611234567");
-if (result.ok) {
-  console.log("✅ Valid number!");
-  console.log(`📱 Original: ${result.value.input}`);
-  console.log(`🌍 International: ${result.value.e164}`);
-  console.log(`🏠 Local: ${result.value.local}`);
-  console.log(`📡 Operator: ${result.value.operator}`);
-} else {
+  if (result.ok) {
+    console.log("✅ Valid number!");
+    console.log(`📱 Original: ${result.value.input}`);
+    console.log(`🌍 International: ${result.value.e164}`);
+    console.log(`🏠 Local: ${result.value.local}`);
+    console.log(`📡 Operator: ${result.value.operator}`);
+    console.log(`💰 Wallet: ${result.value.wallet || 'None'}`);
+  } else {
   console.log("❌ Invalid number!");
   console.log(`🚨 Error: ${result.error.message}`);
   console.log(`🔍 Code: ${result.error.code}`);
@@ -141,15 +155,61 @@ console.log("📡 Operator:", operatorInfo.name); // "Hormuud Telecom Somalia"
 console.log("📋 Prefixes:", operatorInfo.prefixes); // ["61", "77"]
 console.log("🌐 Website:", operatorInfo.website); // "https://hormuud.com"
 console.log("📱 Type:", operatorInfo.type); // "GSM"
+console.log("💰 Primary Wallet:", operatorInfo.wallet); // "EVC"
 
 // List all available operators
 const allOperators = getAllOperators();
 allOperators.forEach((op) => {
-  console.log(`📡 ${op.name} (${op.prefixes.join(", ")})`);
+  console.log(`📡 ${op.name} (${op.prefixes.join(", ")}) - Wallet: ${op.wallet || 'None'}`);
 });
 ```
 
-### 4. Error Handling
+### 4. Mobile Wallet Detection
+
+```javascript
+import { 
+  getWallet, 
+  getWalletInfo, 
+  getAllWallets, 
+  getWalletByName,
+  getWalletByOperator,
+  getSupportedWallets 
+} from "sophone";
+
+// Get wallet name
+console.log(getWallet("0611234567")); // "EVC"
+console.log(getWallet("0621234567")); // "Sahal"
+console.log(getWallet("0631234567")); // "ZAAD"
+
+// Get detailed wallet information
+const evcInfo = getWalletInfo("0611234567");
+console.log("💰 Wallet:", evcInfo.name); // "EVC Plus"
+console.log("📋 Full Name:", evcInfo.fullName); // "Electronic Virtual Cash Plus"
+console.log("📡 Operator:", evcInfo.operator); // "Hormuud"
+console.log("📞 USSD:", evcInfo.ussd); // "*770#"
+console.log("🌐 Website:", evcInfo.website); // "https://evcplus.so"
+console.log("⚡ Features:", evcInfo.features); // ["Send Money", "Receive Money", ...]
+
+// Get wallet by name
+const zaadWallet = getWalletByName("ZAAD");
+console.log("💰 ZAAD USSD:", zaadWallet.ussd); // "*712#"
+
+// Get wallet by operator
+const hormuudWallet = getWalletByOperator("Hormuud");
+console.log("💰 Hormuud Wallet:", hormuudWallet.name); // "EVC Plus"
+
+// List all supported wallets
+const supportedWallets = getSupportedWallets();
+console.log("💰 Supported Wallets:", supportedWallets); // ["EVC", "Sahal", "ZAAD", "eDahab", "Jeeb"]
+
+// Get all wallet details
+const allWallets = getAllWallets();
+allWallets.forEach((wallet) => {
+  console.log(`💰 ${wallet.name} (${wallet.operator}) - USSD: ${wallet.ussd || 'N/A'}`);
+});
+```
+
+### 5. Error Handling
 
 ```javascript
 import { normalizeE164, SomaliPhoneError, ERROR_CODES } from "sophone";
@@ -190,7 +250,7 @@ processPhoneNumber("0111234567"); // ❌ Invalid prefix
 processPhoneNumber("invalid"); // ❌ Invalid input
 ```
 
-### 5. Batch Processing
+### 6. Batch Processing
 
 ```javascript
 import { validateBatch, normalizeBatch } from "sophone";
@@ -222,7 +282,7 @@ normalizedResults.forEach((result) => {
 });
 ```
 
-### 6. Real-World Examples
+### 7. Real-World Examples
 
 #### User Registration Form Validation
 
@@ -245,6 +305,7 @@ function validateUserPhone(phoneInput) {
       valid: true,
       formatted: result.value.local,
       operator: result.value.operator,
+      wallet: result.value.wallet,
       e164: result.value.e164,
     };
   }
@@ -259,6 +320,7 @@ const validation = validateUserPhone(userInput);
 if (validation.valid) {
   console.log(`✅ Phone: ${validation.formatted}`);
   console.log(`📡 Operator: ${validation.operator}`);
+  console.log(`💰 Wallet: ${validation.wallet || 'No primary wallet'}`);
   // Store validation.e164 in database
 } else {
   console.log(`❌ Error: ${validation.message}`);
@@ -268,7 +330,7 @@ if (validation.valid) {
 #### Contact List Formatter
 
 ```javascript
-import { formatLocal, getOperator, isValidSomaliMobile } from "sophone";
+import { formatLocal, getOperator, getWallet, isValidSomaliMobile } from "sophone";
 
 const contacts = [
   { name: "Ahmed", phone: "+252611234567" },
@@ -283,6 +345,7 @@ const formattedContacts = contacts.map((contact) => {
       ...contact,
       formattedPhone: formatLocal(contact.phone),
       operator: getOperator(contact.phone),
+      wallet: getWallet(contact.phone),
       valid: true,
     };
   } else {
@@ -290,6 +353,7 @@ const formattedContacts = contacts.map((contact) => {
       ...contact,
       formattedPhone: contact.phone,
       operator: null,
+      wallet: null,
       valid: false,
     };
   }
@@ -299,8 +363,9 @@ console.log("📞 Contact List:");
 formattedContacts.forEach((contact) => {
   const status = contact.valid ? "✅" : "❌";
   const operator = contact.operator ? `(${contact.operator})` : "";
+  const wallet = contact.wallet ? ` | ${contact.wallet}` : "";
   console.log(
-    `${status} ${contact.name}: ${contact.formattedPhone} ${operator}`
+    `${status} ${contact.name}: ${contact.formattedPhone} ${operator}${wallet}`
   );
 });
 ```
@@ -380,29 +445,54 @@ sophone format "0611234567"        # 0611 234 567
 sophone e164 "0611234567"          # +252611234567
 sophone international "0611234567" # +252 61 123 4567
 
-# Get operator information
+# Get operator and wallet information
 sophone operator "0611234567"      # Hormuud
+sophone wallet "0611234567"        # EVC
 sophone info "0611234567"
 # Output: Operator: Hormuud Telecom Somalia
 #         Prefixes: 61, 77
 #         Type: GSM
 #         Website: https://hormuud.com
+#         Primary Wallet: EVC
 
-# List all operators
+sophone walletinfo "0611234567"
+# Output: Wallet: EVC Plus
+#         Full Name: Electronic Virtual Cash Plus
+#         Operator: Hormuud
+#         Description: Hormuud's flagship mobile money service
+#         Features: Send Money, Receive Money, Pay Bills, Buy Airtime, Merchant Payments
+#         USSD Code: *770#
+#         Website: https://evcplus.so
+
+# List all operators and wallets
 sophone operators
 # Output: Available Operators:
 #         Hormuud Telecom Somalia (61, 77)
 #           Website: https://hormuud.com
+#           Primary Wallet: EVC
 #         Somtel Network (62, 65, 66)
 #           Website: https://somtel.com
+#           Primary Wallet: Sahal
+#         ...
+
+sophone wallets
+# Output: Available Mobile Wallets:
+#         EVC Plus (Hormuud)
+#           USSD: *770#
+#           Website: https://evcplus.so
+#           Features: Send Money, Receive Money, Pay Bills, Buy Airtime, Merchant Payments
+#         Sahal (Somtel)
+#           USSD: *828#
+#           Website: https://somtel.com/sahal
+#           Features: Money Transfer, Bill Payment, Airtime Purchase, Merchant Services
 #         ...
 
 # Process multiple numbers from a file
 echo -e "0611234567\n0621234567\ninvalid\n123" > numbers.txt
 sophone batch numbers.txt
 # Output: Processing 4 numbers from numbers.txt:
-#         ✓ 0611234567 → +252611234567 (Hormuud)
-#         ✓ 0621234567 → +252621234567 (Somtel)
+#         ✓ 0611234567 → +252611234567 (Hormuud | EVC)
+#         ✓ 0621234567 → +252621234567 (Somtel | Sahal)
 #         ✗ invalid → "invalid" contains no valid digits
 #         ✗ 123 → "123" is too short (3 digits)
 #         Summary: 2 valid, 2 invalid
@@ -430,15 +520,22 @@ else
 fi
 ```
 
-## Supported Operators
+## Supported Operators & Mobile Wallets
 
-- **Hormuud**: 61, 77
-- **Somtel**: 62, 65, 66
-- **Telesom**: 63
-- **SomLink**: 64
-- **SomNet**: 68
-- **NationLink**: 69
-- **Amtel**: 71
+| Operator | Prefixes | Primary Wallet | USSD Code |
+|----------|----------|----------------|-----------|
+| **Hormuud Telecom** | 61, 77 | EVC Plus | *770# |
+| **Somtel Network** | 62, 65, 66 | Sahal | *828# |
+| **Telesom** | 63 | ZAAD | *712# |
+| **SomLink** | 64 | - | - |
+| **SomNet** | 68 | - | - |
+| **NationLink** | 69 | - | - |
+| **Amtel** | 71 | - | - |
+
+### Additional Mobile Wallets
+
+- **eDahab**: Multi-operator service (*444#) - International remittance
+- **Jeeb**: Multi-operator digital wallet - E-commerce focused
 
 ## API
 
@@ -468,6 +565,14 @@ Formats a Somali mobile number to local format (0XXX XXX XXX).
 
 Gets the mobile operator for a Somali mobile number.
 
+#### `getWallet(input: string): string | null`
+
+Gets the primary mobile wallet for a Somali mobile number based on the operator.
+
+#### `getWalletInfo(input: string): WalletInfo | null`
+
+Gets detailed wallet information including name, USSD code, features, and website.
+
 ### Safe Functions (Non-throwing)
 
 These functions return `null` instead of throwing errors:
@@ -483,6 +588,32 @@ Safe version of `formatLocal`.
 #### `getOperatorSafe(input: string): string | null`
 
 Safe version of `getOperator`.
+
+#### `getWalletSafe(input: string): string | null`
+
+Safe version of `getWallet`.
+
+#### `getWalletInfoSafe(input: string): WalletInfo | null`
+
+Safe version of `getWalletInfo`.
+
+### Utility Functions
+
+#### `getAllWallets(): Array<WalletInfo>`
+
+Returns an array of all supported mobile wallets with detailed information.
+
+#### `getWalletByName(walletName: string): WalletInfo | null`
+
+Gets wallet information by wallet name (e.g., "EVC", "Sahal").
+
+#### `getWalletByOperator(operatorName: string): WalletInfo | null`
+
+Gets wallet information by operator name (e.g., "Hormuud", "Somtel").
+
+#### `getSupportedWallets(): Array<string>`
+
+Returns an array of supported wallet names.
 
 ### Error Handling
 
