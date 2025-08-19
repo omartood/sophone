@@ -5,42 +5,73 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.1] - 2025-08-09
+## [0.2.0] - 2024-12-19
 
-### Fixed
-- Updated repository links to correct GitHub URL (github.com/omartood/sophone)
-- Fixed documentation to show ES module syntax instead of CommonJS
-- Enhanced README with comprehensive CLI examples and proper links
-- Added contributing guidelines and development setup instructions
+### ✨ Features
 
-### Changed
-- Improved package description with emoji and better formatting
-- Enhanced CLI help documentation with all 8 commands
+- **Mobile Wallet Detection**: Added comprehensive mobile wallet identification for Somalia
+  - EVC Plus (Hormuud Telecom) - *770#
+  - Sahal (Somtel Network) - *828#
+  - ZAAD (Telesom) - *712#
+  - eDahab (Multi-operator) - *444#
+  - Jeeb (Multi-operator digital wallet)
 
-## [0.1.0] - 2025-08-09
+### 🚀 New Functions
 
-### Added
-- Initial release of sophone
-- Core phone number validation for Somalia (+252)
-- Support for all major Somali mobile operators:
-  - Hormuud (61, 77)
-  - Somtel (62, 65, 66)
-  - Telesom (63)
-  - SomLink (64)
-  - SomNet (68)
-  - NationLink (69)
-  - Amtel (71)
-- Multiple formatting options:
-  - E.164 format (+252XXXXXXXXX)
-  - Local format (0XXX XXX XXX)
-  - International format (+252 XX XXX XXXX)
-- Professional error handling with SomaliPhoneError class
-- Structured error codes (INVALID_LENGTH, INVALID_PREFIX, INVALID_INPUT, UNKNOWN)
-- Both throwing and safe (non-throwing) function variants
-- Comprehensive validation with detailed results
-- Operator information and metadata
-- Batch processing capabilities
-- CLI tool with multiple commands
-- Complete TypeScript definitions
-- 36 comprehensive tests
-- GitHub Actions CI/CD workflows
+- `getWallet(input)` - Get primary wallet for phone number
+- `getWalletInfo(input)` - Get detailed wallet information
+- `getWalletSafe(input)` - Safe version of getWallet
+- `getWalletInfoSafe(input)` - Safe version of getWalletInfo
+- `getAllWallets()` - List all supported wallets
+- `getWalletByName(walletName)` - Get wallet by name
+- `getWalletByOperator(operatorName)` - Get wallet by operator
+- `getSupportedWallets()` - Get array of wallet names
+
+### 🖥️ CLI Enhancements
+
+- `sophone wallet <number>` - Get wallet name
+- `sophone walletinfo <number>` - Get detailed wallet info
+- `sophone wallets` - List all wallets
+- Enhanced `sophone info` to show wallet information
+- Enhanced `sophone batch` to show wallet in output
+
+### 🧪 Testing
+
+- Added 62 comprehensive tests
+- Full coverage for wallet detection features
+- Enhanced validation result object with wallet information
+
+### 📚 Documentation
+
+- Updated README.md with wallet detection examples
+- Added comprehensive API documentation
+- Enhanced CLI usage examples
+
+## [0.1.1] - 2024-12-18
+
+### 🐛 Bug Fixes
+
+- Initial release fixes and improvements
+
+## [0.1.0] - 2024-12-18
+
+### ✨ Features
+
+- **Phone Number Validation**: Validate Somali phone numbers in any format
+- **Number Formatting**: Format to E.164, local, and international formats
+- **Operator Detection**: Identify mobile operators (Hormuud, Somtel, Telesom, etc.)
+- **CLI Tool**: Command-line interface for phone number operations
+- **TypeScript Support**: Full type definitions included
+- **Batch Processing**: Process multiple numbers at once
+- **Error Handling**: Beautiful error messages with detailed codes
+- **Zero Dependencies**: Lightweight and fast
+
+### 🎯 Supported Operators
+
+- Hormuud Telecom (61, 77)
+- Somtel Network (62, 65, 66)
+- Telesom (63)
+- SomLink (64)
+- SomNet (68)
+- NationLink (69)
+- Amtel (71)
