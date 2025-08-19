@@ -17,6 +17,7 @@ class SomaliPhoneError extends Error {
 }
 
 const MOBILE_PREFIXES = new Set([
+  "60",
   "61",
   "62",
   "63",
@@ -25,20 +26,25 @@ const MOBILE_PREFIXES = new Set([
   "66",
   "68",
   "69",
+  "70",
   "71",
+  "72",
   "77",
 ]);
 const OPERATOR_BY_PREFIX = {
+  60: "Golis",
   61: "Hormuud",
-  77: "Hormuud",
   62: "Somtel",
-  65: "Somtel",
-  66: "Somtel",
   63: "Telesom",
   64: "SomLink",
+  65: "Somtel",
+  66: "Somtel",
   68: "SomNet",
   69: "NationLink",
+  70: "Golis",
   71: "Amtel",
+  72: "Golis",
+  77: "Hormuud",
 };
 
 // Mobile wallet mapping by operator
@@ -46,6 +52,7 @@ const WALLET_BY_OPERATOR = {
   "Hormuud": "EVC",
   "Somtel": "Sahal", 
   "Telesom": "ZAAD",
+  "Golis": "GolisSahal",
   "SomLink": null, // No primary wallet
   "SomNet": null,  // No primary wallet
   "NationLink": null, // No primary wallet
@@ -98,6 +105,15 @@ const WALLET_INFO = {
     features: ["Digital Payments", "Money Transfer", "Bill Payment", "E-commerce"],
     website: null,
     ussd: null
+  },
+  "GolisSahal": {
+    name: "Golis Sahal",
+    fullName: "Golis Sahal Mobile Money",
+    operator: "Golis",
+    description: "Golis Telecom's mobile money and digital payment service",
+    features: ["Send Money", "Receive Money", "Pay Bills", "Buy Airtime", "Merchant Services"],
+    website: "https://golistelecom.com/sahal",
+    ussd: "*888#"
   }
 };
 
@@ -151,6 +167,13 @@ const OPERATOR_INFO = {
     website: null,
     type: "GSM",
     wallet: null
+  },
+  "Golis": {
+    name: "Golis Telecom Somalia",
+    prefixes: ["60", "70", "72"],
+    website: "https://golistelecom.com",
+    type: "GSM",
+    wallet: "GolisSahal"
   }
 };
 

@@ -28,6 +28,9 @@ describe("sophone", () => {
       expect(P.isValidSomaliMobile("252611234567")).toBe(true);
       expect(P.isValidSomaliMobile("0611234567")).toBe(true);
       expect(P.isValidSomaliMobile("611234567")).toBe(true);
+      expect(P.isValidSomaliMobile("0601234567")).toBe(true); // Golis
+      expect(P.isValidSomaliMobile("0701234567")).toBe(true); // Golis
+      expect(P.isValidSomaliMobile("0721234567")).toBe(true); // Golis
     });
 
     it("rejects invalid numbers", () => {
@@ -40,7 +43,7 @@ describe("sophone", () => {
     });
 
     it("validates all known prefixes", () => {
-      const prefixes = ["61", "62", "63", "64", "65", "66", "68", "69", "71", "77"];
+      const prefixes = ["60", "61", "62", "63", "64", "65", "66", "68", "69", "70", "71", "72", "77"];
       prefixes.forEach(prefix => {
         expect(P.isValidSomaliMobile(`${prefix}1234567`)).toBe(true);
       });
@@ -150,6 +153,9 @@ describe("sophone", () => {
       expect(P.getOperator("+252621234567")).toBe("Somtel");
       expect(P.getOperator("+252631234567")).toBe("Telesom");
       expect(P.getOperator("+252711234567")).toBe("Amtel");
+      expect(P.getOperator("+252601234567")).toBe("Golis");
+      expect(P.getOperator("+252701234567")).toBe("Golis");
+      expect(P.getOperator("+252721234567")).toBe("Golis");
     });
 
     it("returns null for valid numbers with unknown operators", () => {
@@ -234,7 +240,7 @@ describe("sophone", () => {
   describe("getAllOperators", () => {
     it("returns all operators with information", () => {
       const operators = P.getAllOperators();
-      expect(operators).toHaveLength(7);
+      expect(operators).toHaveLength(8);
       expect(operators[0]).toHaveProperty("name");
       expect(operators[0]).toHaveProperty("prefixes");
       expect(operators[0]).toHaveProperty("type");
@@ -318,6 +324,9 @@ describe("sophone", () => {
       expect(P.getWallet("+252621234567")).toBe("Sahal");
       expect(P.getWallet("+252651234567")).toBe("Sahal");
       expect(P.getWallet("+252631234567")).toBe("ZAAD");
+      expect(P.getWallet("+252601234567")).toBe("GolisSahal");
+      expect(P.getWallet("+252701234567")).toBe("GolisSahal");
+      expect(P.getWallet("+252721234567")).toBe("GolisSahal");
     });
 
     it("returns null for operators without primary wallets", () => {
@@ -342,6 +351,7 @@ describe("sophone", () => {
       expect(P.getWalletSafe("+252611234567")).toBe("EVC");
       expect(P.getWalletSafe("+252621234567")).toBe("Sahal");
       expect(P.getWalletSafe("+252631234567")).toBe("ZAAD");
+      expect(P.getWalletSafe("+252601234567")).toBe("GolisSahal");
     });
 
     it("returns null for invalid numbers", () => {
@@ -378,6 +388,11 @@ describe("sophone", () => {
       expect(zaadInfo.name).toBe("ZAAD");
       expect(zaadInfo.operator).toBe("Telesom");
       expect(zaadInfo.ussd).toBe("*712#");
+
+      const golisSahalInfo = P.getWalletInfo("0601234567");
+      expect(golisSahalInfo.name).toBe("Golis Sahal");
+      expect(golisSahalInfo.operator).toBe("Golis");
+      expect(golisSahalInfo.ussd).toBe("*888#");
     });
 
     it("returns null for operators without wallets", () => {
@@ -408,12 +423,13 @@ describe("sophone", () => {
   describe("getAllWallets", () => {
     it("returns all wallets with information", () => {
       const wallets = P.getAllWallets();
-      expect(wallets).toHaveLength(5);
+      expect(wallets).toHaveLength(6);
       expect(wallets.map(w => w.name)).toContain("EVC Plus");
       expect(wallets.map(w => w.name)).toContain("Sahal");
       expect(wallets.map(w => w.name)).toContain("ZAAD");
       expect(wallets.map(w => w.name)).toContain("eDahab");
       expect(wallets.map(w => w.name)).toContain("Jeeb");
+      expect(wallets.map(w => w.name)).toContain("Golis Sahal");
       
       expect(wallets[0]).toHaveProperty("name");
       expect(wallets[0]).toHaveProperty("fullName");
@@ -452,7 +468,7 @@ describe("sophone", () => {
   describe("getSupportedWallets", () => {
     it("returns list of supported wallet names", () => {
       const supportedWallets = P.getSupportedWallets();
-      expect(supportedWallets).toEqual(["EVC", "Sahal", "ZAAD", "eDahab", "Jeeb"]);
+      expect(supportedWallets).toEqual(["EVC", "Sahal", "ZAAD", "eDahab", "Jeeb", "GolisSahal"]);
     });
   });
 
