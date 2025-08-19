@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/omartood/sophone/compare/v1.0.0...v1.1.0) (2025-08-19)
+
+
+### Features
+
+* add Golis Telecom operator and Sahal wallet support ([fc22bea](https://github.com/omartood/sophone/commit/fc22bea66b90a4886c2d04dc371d8e10538238e7))
+
 # 1.0.0 (2025-08-19)
 
 
