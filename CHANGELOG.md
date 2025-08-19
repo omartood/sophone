@@ -1,3 +1,15 @@
+# 1.0.0 (2025-08-19)
+
+
+### Bug Fixes
+
+* update Node.js version to 20 for semantic-release compatibility ([555c624](https://github.com/omartood/sophone/commit/555c624a8c883024d670a76b1ede7150ad98c647))
+
+
+### Features
+
+* add automated release system ([c87b07d](https://github.com/omartood/sophone/commit/c87b07d2aedb149d9bf232ef54621d9586149eb8))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
