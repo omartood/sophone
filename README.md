@@ -677,4 +677,4 @@ MIT - see [LICENSE](https://github.com/omartood/sophone/blob/main/LICENSE) file 
 
 ---
 
-Created by Omar Tood🇸🇴
+Created by Omar Tood
